@@ -1,0 +1,143 @@
+---
+title: "Lab3.Rmd"
+author: "Natalie Palmer"
+date: "9/22/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. Create five samples of 25 observations from a normal distribution with mean 200, and standard deviation 100. Compute the mean of each sample, and plot the means in a graph using ggplot2.
+```{r}
+# create vectors for columns 
+observations <- rnorm(n = 5*25, mean = 200, sd =100)
+samples <- rep(1:5, each=25)
+
+# creates table from the above vectors using data.frame ()
+my_data <- data.frame(observations,samples)
+
+#get means of each group of samples
+library(dplyr)
+
+means <- my_data %>%
+  group_by(samples) %>%
+  summarize(mean_sample = mean(observations))
+
+library(ggplot2)
+
+ggplot(means, aes(y=mean_sample, x = samples))+
+  geom_bar(stat="identity")
+
+```
+
+2. Additionally calculate the standard deviation of each sample from above. Use the standard deviations for error bars, and produce another graph with the means along with error bars using ggplot2. 
+```{r}
+
+observations <- rnorm(5*25, mean = 200, sd =100)
+samples <- rep(1:5, each=25)
+my_data <- data.frame(observations,samples)
+
+#get means of each group of samples
+means <- my_data %>%
+  group_by(samples) %>%
+  summarize(mean_sample = mean(observations),
+            sd_sample = sd(observations))
+
+
+#plot means 
+ggplot(means, aes(y = mean_sample, x=samples))+
+  geom_bar(stat="identity") +
+  geom_errorbar(aes(ymin = mean_sample - sd_sample,
+                    ymax = mean_sample + sd_sample),
+                width = .25)
+
+
+```
+
+
+3. Demonstrate that the sample mean across a range of n, is an unbiased estimator of the population mean using a monte-carlo simulation. (2 points).
+```{r}
+
+# n 2
+observations <- rnorm(2*10000,mean = 10,sd =5)
+samples <- rep(1:10000, each =2)
+my_data <- data.frame(samples,observations)
+
+summarized_data <- my_data %>%
+  group_by(samples) %>%
+  summarize(sample_means = mean(observations))
+
+mean(summarized_data$sample_means)
+
+
+# n 5
+observations <- rnorm(5*10000,mean = 10,sd =5)
+samples <- rep(1:10000, each =5)
+my_data <- data.frame(samples,observations)
+
+summarized_data <- my_data %>%
+  group_by(samples) %>%
+  summarize(sample_means = mean(observations))
+
+mean(summarized_data$sample_means)
+
+
+# n 10
+observations <- rnorm(10*10000,mean = 10,sd =5)
+samples <- rep(1:10000, each =10)
+my_data <- data.frame(samples,observations)
+
+summarized_data <- my_data %>%
+  group_by(samples) %>%
+  summarize(sample_means = mean(observations))
+
+mean(summarized_data$sample_means)
+
+
+# n 50
+observations <- rnorm(50*10000,mean = 10,sd =5)
+samples <- rep(1:10000, each =50)
+my_data <- data.frame(samples,observations)
+
+summarized_data <- my_data %>%
+  group_by(samples) %>%
+  summarize(sample_means = mean(observations))
+
+mean(summarized_data$sample_means)
+
+
+##########
+sample_sizes <- c(2,5,10,50,100)
+sim_sample_means <- c()
+for (i in 1:length(sample_sizes)) {
+  observations <- rnorm(sample_sizes[i]*10000,mean = 10,sd =5)
+  samples <- rep(1:10000, each = sample_sizes[i])
+  my_data <- data.frame(samples,observations)
+
+summarized_data <- my_data %>%
+  group_by(samples) %>%
+  summarize(sample_means = mean(observations))
+
+ sim_sample_means[i] <- mean(summarized_data$sample_means)
+  
+}
+
+sim_data <- data.frame(sample_sizes, sim_sample_means)
+
+ggplot(sim_data, aes(x=sample_sizes, y=sim_sample_means, group=1))+
+         geom_point()+
+         geom_line() +
+        coord_cartesian(ylim = c(0,20) )
+    
+
+```
+
+
+4. Use a monte carlo simulation to compare the standard deviation formulas (divide by N vs N-1), and show that the N-1 formula is a better unbiased estimate of the population standard deviation, especially for small n. (2 points)
+```{r}
+my_sd <- function(x) {
+  sum((mean(x)-x)^2) / length(x)
+ }
+```
