@@ -137,7 +137,39 @@ ggplot(sim_data, aes(x=sample_sizes, y=sim_sample_means, group=1))+
 
 4. Use a monte carlo simulation to compare the standard deviation formulas (divide by N vs N-1), and show that the N-1 formula is a better unbiased estimate of the population standard deviation, especially for small n. (2 points)
 ```{r}
-my_sd <- function(x) {
-  sum((mean(x)-x)^2) / length(x)
- }
+sd_N <- function(x) {
+  sqrt(sum((mean(x)-x)^2) / length(x))
+}
+
+library(dplyr)
+library(ggplot2)
+
+##########
+sample_sizes <- c(2,5,10,50,100)
+sim_sample_sd <- c()
+sim_sample_sd_N <- c()
+for (i in 1:length(sample_sizes)){
+    observations <- rnorm(sample_sizes[i]*10000,mean = 10,sd =5)
+    samples <- rep(1:10000, each = sample_sizes[i])
+    my_data <- data.frame(samples,observations)
+
+  summarized_data <- my_data %>%
+    group_by(samples) %>%
+    summarize(sample_sd = sd(observations),
+              sample_sd_N = sd_N(observations))
+
+  sim_sample_sd[i] <- mean(summarized_data$sample_sd)
+  sim_sample_sd_N[i] <- mean(summarized_data$sample_sd_N)
+
+}
+
+sim_data <- data.frame(n = rep(sample_sizes,2) ,
+                       est = c(sim_sample_sd_N,sim_sample_sd),
+                       formula = c(rep("N",5), rep("N-1",5)))
+
+ggplot(sim_data, aes(x=n, y=est, group=formula, color = formula))+
+  geom_point()+
+  geom_line()+
+  coord_cartesian(ylim = c(0,20) )
+
 ```
