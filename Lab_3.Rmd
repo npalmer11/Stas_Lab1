@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 1. Create five samples of 25 observations from a normal distribution with mean 200, and standard deviation 100. Compute the mean of each sample, and plot the means in a graph using ggplot2.
+
 ```{r}
 # create vectors for columns 
 observations <- rnorm(n = 5*25, mean = 200, sd =100)
@@ -33,8 +34,8 @@ ggplot(means, aes(y=mean_sample, x = samples))+
 ```
 
 2. Additionally calculate the standard deviation of each sample from above. Use the standard deviations for error bars, and produce another graph with the means along with error bars using ggplot2. 
-```{r}
 
+```{r}
 observations <- rnorm(5*25, mean = 200, sd =100)
 samples <- rep(1:5, each=25)
 my_data <- data.frame(observations,samples)
@@ -57,9 +58,9 @@ ggplot(means, aes(y = mean_sample, x=samples))+
 ```
 
 
-3. Demonstrate that the sample mean across a range of n, is an unbiased estimator of the population mean using a monte-carlo simulation. (2 points).
-```{r}
+3. Demonstrate that the sample mean across a range of n, is an unbiased estimator of the population mean using a monte-carlo simulation.
 
+```{r}
 # n 2
 observations <- rnorm(2*10000,mean = 10,sd =5)
 samples <- rep(1:10000, each =2)
@@ -82,19 +83,6 @@ summarized_data <- my_data %>%
   summarize(sample_means = mean(observations))
 
 mean(summarized_data$sample_means)
-
-
-# n 10
-observations <- rnorm(10*10000,mean = 10,sd =5)
-samples <- rep(1:10000, each =10)
-my_data <- data.frame(samples,observations)
-
-summarized_data <- my_data %>%
-  group_by(samples) %>%
-  summarize(sample_means = mean(observations))
-
-mean(summarized_data$sample_means)
-
 
 # n 50
 observations <- rnorm(50*10000,mean = 10,sd =5)
@@ -134,8 +122,8 @@ ggplot(sim_data, aes(x=sample_sizes, y=sim_sample_means, group=1))+
 
 ```
 
-
 4. Use a monte carlo simulation to compare the standard deviation formulas (divide by N vs N-1), and show that the N-1 formula is a better unbiased estimate of the population standard deviation, especially for small n. (2 points)
+
 ```{r}
 sd_N <- function(x) {
   sqrt(sum((mean(x)-x)^2) / length(x))
