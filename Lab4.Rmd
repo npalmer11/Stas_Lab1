@@ -85,5 +85,20 @@ min(step)
 5. What was the longest run of steps where all steps were positive numbers. For example, in the sequence: 1,2,3,2,1,0,-1,-2,-1,-2,-1,0,1,2,3; the answer is 5 because the first five values were all positive, and this was the longest sequence of positive values.
 
 ```{r}
+logical_step <- sign(step)
+
+sequence <- c()
+counter <- 0
+for (i in 1:length(logical_step)){
+  if(logical_step [i] == 0) {
+    sequence <- c(sequence,counter)
+    counter <- 0
+  } else {
+    counter <- counter+logical_step[i]
+  }
+  
+}
+max(sequence)
+min(sequence)
 
 ```
