@@ -1,0 +1,98 @@
+---
+title: "Lab_6.Rmd"
+author: "Natalie Palmer"
+date: "10/13/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. Write a function that conducts a randomization test for the mean difference between two groups, and show that it works. Specifically, using your function, conduct a randomization test on the same data we used in the above example from lab. Report the results and briefly discuss what the results of the randomization tell you. (6 points). Extra: if the observed mean difference in the experiment was found to be .5, what would you have concluded from the randomization test?
+
+Confidence: 000
+
+```{r}
+
+group_one <- c(5,6,7,8,9)
+group_two <- c(2,3,4,1,6)
+
+randomization_test <- function(A, B, resamples = 100){
+  # calculate actual means
+  group_A_mean <- mean(A)
+  group_B_mean <- mean(B)
+  mean_difference <- group_A_mean - group_B_mean
+  
+  #conduct randomization 
+  all_means <- c(A,B)
+  
+  simulated_differences <- c()
+  for(i in 1:resamples){
+   resample <- sample(all_means)
+   new_A_mean <- mean(resample[1:length(A)])
+   new_B_mean <- mean(resample[(length(A)+1):length(all_means)])
+   simulated_differences[i] <- new_A_mean-new_B_mean
+}
+  
+the_plot <- ggplot2::qplot(simulated_differences)+
+  ggplot2::geom_histogram(color="orange")+
+  ggplot2::geom_vline(xintercept=mean_difference, color ="red")+
+  ggplot2::theme_classic()
+
+ p_value <- length(simulated_differences[simulated_differences >=
+                                mean_difference])/resamples
+  
+
+
+  test_output <- list(A_mean = group_A_mean,
+                      B_mean = group_B_mean,
+                      difference = mean_difference,
+                      randomization = simulated_differences,
+                      plot = the_plot,
+                      p_value = p_value)
+  
+  return(test_output)
+  
+}
+
+randomization_test(A=group_one,
+                   B=group_two,
+                   resamples = 100)
+
+
+
+```
+
+
+
+```{r}
+
+
+the_data <- read.csv("open_data/SchroederEpley2015data.csv", header = TRUE)
+
+library(dplyr)
+
+group_0 <- the_data %>%
+  filter(CONDITION == 0) %>%
+  select(Intellect_Rating)
+
+
+group_0 <- group_0$Intellect_Rating
+
+
+group_1 <- the_data %>%
+  filter(CONDITION == 1) %>%
+  select(Intellect_Rating)
+
+group_1 <- group_1$Intellect_Rating
+
+randomization_test(A=group_0,
+                   B=group_1,
+                   resamples = 1000)
+
+
+```
+
+The results indicate that their is a statistically significant difference and that chance alone is unlikely to be the reason for the difference. 
+
