@@ -8,23 +8,23 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+1. A test-taker answered 50 true/false questions and received a score of 60% correct. Report the results of a binomial test and explain whether you think the test-score could be produced by the test-taker randomly guessing on each question.
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+* I do think that it's possible you could get a 60% on a T/F exam just by chance alone (although I tend to always believe in chance to some degree)! Here, the p-value=0.1013 which means there is about a 10% chance of this happening.    
+```{r}
+?binom.test
+binom.test(x = 30,
+           n = 50,
+           alternative = "greater")
 ```
+2.An examiner wants to make a TRUE/FALSE test, but is still deciding how many questions they will include. They want to make sure that it would be very difficult to simply randomly guess and be able to score any higher than 55% percent. How many questions would the examiner need to use to be confident that scores of 55% or higher were not produced by chance?
+```{r}
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+binom.test(x = 440,
+           n = 800,
+           alternative = "greater")
 ```
+3. A test has 5 TRUE/FALSE questions (each with one right answer) and 5 multiple choice questions with four choices each (each with only one right answer).
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+create a sampling distribution or probability distribution to illustrate how a random chance process could perform on this test. (1 point)
+What is the probability that randomly guessing on each question could allow a person to receive 75% or greater on this test? (1 point)
