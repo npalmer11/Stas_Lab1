@@ -10,8 +10,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 1. A test-taker answered 50 true/false questions and received a score of 60% correct. Report the results of a binomial test and explain whether you think the test-score could be produced by the test-taker randomly guessing on each question.
 
-* I do think that it's possible you could get a 60% on a T/F exam just by chance alone (although I tend to always believe in chance to some degree)! Here, the p-value=0.1013 which means there is about a 10% chance of this happening.    
+  *I do think that it's possible you could get a 60% on a T/F exam just by chance alone (although I tend to always believe in chance to some degree)! Here, the p-value=0.1013 which means there is about a 10% chance of this happening.    
 ```{r}
+library(dplyr)
 ?binom.test
 binom.test(x = 30,
            n = 50,
@@ -28,3 +29,20 @@ binom.test(x = 440,
 
 create a sampling distribution or probability distribution to illustrate how a random chance process could perform on this test. (1 point)
 What is the probability that randomly guessing on each question could allow a person to receive 75% or greater on this test? (1 point)
+
+  *The probability of getting a score 75% or greater is .0048
+```{r}
+
+rbinom(n= rep(1,10), size = 1, prob = c(.5,.5,.5,.5,.5,.25,.25,.25,.25,.25))
+
+simulated_test <- replicate(10000, rbinom(n= rep(1,10), size = 1, prob = c(.5,.5,.5,.5,.5,.25,.25,.25,.25,.25)))
+
+simulated_scores <- colSums(simulated_test)/10
+
+library(ggplot2)
+
+qplot(simulated_scores)+
+  geom_histogram()
+
+length(simulated_scores[simulated_scores > .75])/10000
+```
