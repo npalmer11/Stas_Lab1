@@ -1,0 +1,43 @@
+---
+title: "Lab_8.Rmd"
+author: "Natalie Palmer"
+date: "10/25/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```
+
+1. Write a function to convert a vector of raw-scores into z-scores. The function should have inputs for the vector, the mean and sd of the normal distribution, and should return a vector of zscores. (1 point). Also, demonstrate that the function works correctly (1 point). How you make the demonstration is up to you.
+
+```{r}
+to_zscores <- function(raw,mu,sd){
+  zscores <- (raw-mu)/sd
+  return(zscores)
+}
+
+some_numbers <- c(8,6,4,2,10)
+
+to_zscores(some_numbers,6,3.16)
+
+to_zscores_z <- function(raw,mu=NULL,sdev=NULL){
+  if(is.null(mu) == TRUE) mu <- mean(raw)
+  if(is.null(sdev) == TRUE) sdev <- sd(raw)
+  zscores <- (raw-mu)/sdev
+  return(zscores)
+}
+
+to_zscores_z(some_numbers, mu = 6, sdev = 3.16)
+
+to_zscores_z(some_numbers)
+```
+
+2. Base R does not have a function for a z-test. Write a function to accomplish a one-sample z-test. Remember, a one-sample z test is used to compare the probability of obtaining the sample mean (or larger or smaller) if it came from a known normal distribution. (2 points).
+
+```{r}
+
+```
+
