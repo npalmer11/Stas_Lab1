@@ -1,0 +1,53 @@
+---
+title: "Lab_9.Rmd"
+author: "Natalie Palmer"
+date: "11/10/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+1. Obtain the data from the online repository, show your code for loading it into R, then conduct the same tests reported in Experiment 1 that the authors conducted. These include one binomial test, and two chi-square tests. Briefly report your re-analysis, and discuss whether you obtained the same values as the authors did (6 points).
+```{r}
+library(readxl)
+When_not_choosing_leads_to_not_liking_Data <- read_excel("~/Desktop/When not choosing leads to not liking_Data.xlsx")
+
+
+# e1 data
+
+library(dplyr)
+e1_data <- When_not_choosing_leads_to_not_liking_Data %>%
+   filter(ExperimentNumber == "1")
+
+# binomial test
+
+sum_C <- sum(e1_data$`Infant Chose C`)
+total_C <- length(e1_data$`Infant Chose C`)
+
+(binomial_p <- pbinom(q = total_C - sum_C,
+                    size = total_C,
+                    prob = .5,
+                    lower.tail = TRUE)*2)
+
+pbinom(q= 21-16, size= 21, .5, lower.tail = FALSE)*2
+
+
+# chi-square for gender 
+
+library(tidyr)
+
+gender_choice_table <- e1_data %>%
+  group_by(Gender, `Infant Chose C`) %>%
+  summarize(counts = n()) %>%
+  pivot_wider(names_from = c(Gender),
+              values_from = counts)
+
+
+
+
+
+```
+
+
+```{r}
