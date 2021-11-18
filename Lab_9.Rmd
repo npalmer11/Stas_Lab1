@@ -43,11 +43,36 @@ gender_choice_table <- e1_data %>%
   pivot_wider(names_from = c(Gender),
               values_from = counts)
 
+gender_choice_table <- gender_choice_table[,2:3]
 
+(gender_Xsq <- chisq.test(gender_choice_table))
 
+uncorrected_Xsq <-
+  sum((gender_Xsq$observed-gender_Xsq$expected)^2/gender_Xsq$expected)
 
+gender_Xsq_unc <-pchisq(uncorrected_Xsq,1,lower.tail = FALSE)
+
+# chi-square for age 
+
+age_table <- e1_data %>%
+  group_by(AgeMonths, `Infant Chose C`) %>%
+  summarize(counts = n()) %>%
+  pivot_wider(names_from = c(AgeMonths),
+              values_from = counts) 
+
+age_table[is.na(age_table)] <- 0
+age_table <- as.matrix(age_table[,2:21])
+(age_xs <- chisq.test(age_table))
+
+age_xs$observed
 
 ```
 
 
+For the most part, I did get the same results as the researchers. However, at first I got slightly different results for the chi-squared test for age where X-squared = 19.153, df = 20, p-value = 0.5119 I'm not sure why this happened/ seems like the degrees of freedom was off for some reason? 
+
 ```{r}
+
+```
+
+In the critical test trial that followed, 16 of the 21 infants (0.7619048%) chose the new block (block C; Fig. 1)-a percentage significantly different from chance, according to a two-tailed binomial test, p = 0.027 , 95% exact confidence interval (CI)=[52.83%,91.78%], relative risk ratio = 1.52. A chi-squared test for independence indicated no significant effect of age or gender on infants' choices, X-squared = 18.244, df = 19, p-value = 0.5062.

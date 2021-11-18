@@ -203,8 +203,68 @@ total_C &lt;- length(e1_data$`Infant Chose C`)
                     prob = .5,
                     lower.tail = TRUE)*2)</code></pre>
 <pre><code>## [1] 0.0266037</code></pre>
-<pre class="r"><code>pbinom(q= 16, size= 21, .5, lower.tail = FALSE)*2</code></pre>
-<pre><code>## [1] 0.00719738</code></pre>
+<pre class="r"><code>pbinom(q= 21-16, size= 21, .5, lower.tail = FALSE)*2</code></pre>
+<pre><code>## [1] 1.973396</code></pre>
+<pre class="r"><code># chi-square for gender 
+
+library(tidyr)
+
+gender_choice_table &lt;- e1_data %&gt;%
+  group_by(Gender, `Infant Chose C`) %&gt;%
+  summarize(counts = n()) %&gt;%
+  pivot_wider(names_from = c(Gender),
+              values_from = counts)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;Gender&#39;. You can override using the `.groups` argument.</code></pre>
+<pre class="r"><code>gender_choice_table &lt;- gender_choice_table[,2:3]
+
+(gender_Xsq &lt;- chisq.test(gender_choice_table))</code></pre>
+<pre><code>## Warning in chisq.test(gender_choice_table): Chi-squared approximation may be
+## incorrect</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  gender_choice_table
+## X-squared = 4.9416e-32, df = 1, p-value = 1</code></pre>
+<pre class="r"><code>uncorrected_Xsq &lt;-
+  sum((gender_Xsq$observed-gender_Xsq$expected)^2/gender_Xsq$expected)
+
+gender_Xsq_unc &lt;-pchisq(uncorrected_Xsq,1,lower.tail = FALSE)
+
+# chi-square for age 
+
+age_table &lt;- e1_data %&gt;%
+  group_by(AgeMonths, `Infant Chose C`) %&gt;%
+  summarize(counts = n()) %&gt;%
+  pivot_wider(names_from = c(AgeMonths),
+              values_from = counts) </code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;AgeMonths&#39;. You can override using the `.groups` argument.</code></pre>
+<pre class="r"><code>age_table[is.na(age_table)] &lt;- 0
+age_table &lt;- as.matrix(age_table[,2:21])
+(age_xs &lt;- chisq.test(age_table))</code></pre>
+<pre><code>## Warning in chisq.test(age_table): Chi-squared approximation may be incorrect</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  age_table
+## X-squared = 18.244, df = 19, p-value = 0.5062</code></pre>
+<pre class="r"><code>age_xs$observed</code></pre>
+<pre><code>##      10.4147843942505 10.5790554414784 10.8747433264887 11.1047227926078
+## [1,]                1                1                1                1
+## [2,]                0                0                0                0
+##      11.2032854209446 11.3675564681725 11.564681724846 11.6632443531828
+## [1,]                1                1               1                1
+## [2,]                0                0               0                1
+##      11.9260780287474 12.2217659137577 14.5872689938398 14.9486652977413
+## [1,]                1                0                0                1
+## [2,]                0                1                1                0
+##      16.0328542094456 16.6570841889117 17.0184804928131 19.2525667351129
+## [1,]                1                1                0                1
+## [2,]                0                0                1                0
+##      19.3511293634497 19.3839835728953 19.5482546201232 20.0082135523614
+## [1,]                0                1                1                1
+## [2,]                1                0                0                0</code></pre>
+<p>For the most part, I did get the same results as the researchers. However, at first I got slightly different results for the chi-squared test for age where X-squared = 19.153, df = 20, p-value = 0.5119 I’m not sure why this happened/ seems like the degrees of freedom was off for some reason?</p>
+<p>In the critical test trial that followed, 16 of the 21 infants (0.7619048%) chose the new block (block C; Fig. 1)-a percentage significantly different from chance, according to a two-tailed binomial test, p = 0.027 , 95% exact confidence interval (CI)=[52.83%,91.78%], relative risk ratio = 1.52. A chi-squared test for independence indicated no significant effect of age or gender on infants’ choices, X-squared = 18.244, df = 19, p-value = 0.5062.</p>
 
 
 
