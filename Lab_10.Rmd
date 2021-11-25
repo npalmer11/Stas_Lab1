@@ -1,0 +1,54 @@
+---
+title: "Lab_10.Rmd"
+author: "Natalie Palmer"
+date: "11/18/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+1. Your task is to obtain the data from the following paper and conduct a reproducible analysis of their results.
+```{r}
+library(papaja)
+library(dplyr)
+library(ggplot2)
+
+# load data 
+
+all_data <- read.csv("open_data/stroop_stand.csv")
+
+# Stand Stroop effect 
+
+(stand_stroop <- t.test(all_data$incongruent_stand,
+                        all_data$congruent_stand,
+                        paired = TRUE))
+
+# Sit Stroop effect 
+
+(sit_stroop <- t.test(all_data$incongruent_sit,
+                      all_data$congruent_sit,
+                      paired = TRUE))
+
+
+```
+The Stroop effects in both the sitting conditions,  `r`
+papaja::apa_print(sit_stroop)$full_result`, and the standing condition, `r
+papaja::apa_print(stand_stroop)$full_result`, were highly reliable...
+
+```{r}
+```
+ 
+```{r}
+stand_stroop_scores <- all_data$incongruent_stand-all_data$congruent_stand
+sit_stroop_scores <- all_data$incongruent_sit-all_data$congruent_sit
+
+stroop_differences <- sit_stroop_scores - stand_stroop_scores
+
+(paired_results <- t.test(stand_stroop_scores,
+                         sit_stroop_scores,
+                         paired=TRUE))
+
+(interaction_results <- t.test(stroop_differences))
+ ```
+
