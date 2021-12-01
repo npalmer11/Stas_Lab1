@@ -1,0 +1,33 @@
+---
+title: "Re-Analysis Project.Rmd"
+author: "Natalie Palmer"
+date: "11/30/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. A brief description of the research question and experiment (with citation to the paper, and link to find the data) 
+```{r}
+library(papaja)
+library(dplyr)
+library(ggplot2)
+
+library(readr)
+Wormwood_2017_Study_1_Data <- read_csv("~/Desktop/Wormwood 2017 Study 1 Data.csv")
+View(Wormwood_2017_Study_1_Data)
+
+Wormwood_2017_Study_1_Data <- read.csv("~/Desktop/Wormwood 2017 Study 1 Data.csv")
+
+
+
+
+```
+
+2. The R code chunks necessary to complete the re-analysis
+
+3. A write-up of your re-analysis results.
+
+4. A brief discussion of whether you were successful or not.
