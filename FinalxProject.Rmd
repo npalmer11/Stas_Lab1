@@ -1,0 +1,81 @@
+---
+title: "finalxproject.rmd"
+author: "Natalie Palmer"
+date: "12/13/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. A brief description of the research question and experiment (with citation to the paper, and link to find the data) 
+
+     St-Amour, S., Cailhol, L., Ruocco, A. C., & Bernard, P. (2021, April 1). Acute Effect
+       of Physical Exercise on Negative Affect in Borderline Personality Disorder: A Pilot Study.
+
+                          https://doi.org/10.31236/osf.io/mdcuh
+                                  https://osf.io/t2egx/
+
+
+  This study looked at individuals with borderline personality disorder and the impact that exercise could have on reducing negative affect (hostility, sadness, and fear). The participants all had to go through a negative mood induction procedure which consisted of watching a scene from The Silence of the Lambs. After the negative mood induction, participants were randomly assigned into an exercise condition which consisted of 20 minutes of PE, or a  control condition which consisted of watching a 20 minute clip from a "neutral" film. The researchers used a "Feeling Scale" (FS) to measure affective valence with a range from -5(very bad) to 5(very good). They also used an arousal scale (FAS) to measure arousal, which ranged from 1(low arousal) to 6(high arousal).  
+
+
+  The researchers first conducted a repeated measures t-test to assess the negative mood induction strategy on valence. I computed a repeated measures t-test to look at the effect of participants before and after the mood induction. For the most part, I got the same values as they did. The only differences were in my mean values (not entirely sure why/ how that happened).
+
+
+  They reported: 
+"The valence of affects was significantly more negative (FS) after (M = -0.36, SD = 2.59)
+the scene from Silence of the Lambs than before (M = 1.29, SD = 2.49), t(26) = 2.41, p = .023, d = 0.46"
+
+
+  My results:
+The participants valence ratings were more negative (FS) after (M = -0.2592593, SD = 2.58) the scence from Silence of the Lambs than before ( M = 1.33, SD = 2.52678), t(26) = 2.41, df = 26, p-value = 0.023
+
+
+```{r}
+library(data.table)
+library(papaja)
+library(dplyr)
+library(ggplot2)
+
+library(readr)
+fas_fs_scores <- read_csv("finalxproject/fas_fs_scores.csv")
+# View(fas_fs_scores)
+
+# fs valence scores
+
+FS_BEFORE <- fas_fs_scores$fs_before
+FS_AFTER <- fas_fs_scores$fs_after
+
+mean(FS_BEFORE)
+mean(FS_AFTER)
+
+sd(FS_AFTER)
+sd(FS_BEFORE)
+
+(FS_before_after <- t.test(fas_fs_scores$fs_before,
+                        fas_fs_scores$fs_after,
+                        paired = TRUE))
+
+
+
+# fas arousal scores
+
+FAS_BEFORE <- fas_fs_scores$fas_before
+FAS_AFTER <- fas_fs_scores$fas_after
+
+mean(FAS_BEFORE)
+mean(FAS_AFTER)
+
+sd(FAS_BEFORE)
+sd(FAS_AFTER)
+
+(FAS_before_after <- t.test(fas_fs_scores$fas_before,
+                        fas_fs_scores$fas_after,
+                        paired = TRUE))
+
+
+
+
+```
