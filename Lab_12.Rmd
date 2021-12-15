@@ -1,7 +1,7 @@
 ---
 title: "Lab_12.Rmd"
 author: "Natalie Palmer"
-date: "12/9/2021"
+date: "12/14/2021"
 output: html_document
 ---
 
@@ -9,34 +9,32 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-1. Should you do a linear regression on this data? Explain.
-
+Should you do a linear regression on this data? Explain.
 Y <- c(10,9,8,7,6,5,4,3,2,1,2,3,4,5,6,7,8,9,10)
 X <- c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19)
 
-  I would not 
+The graph shows us that the relationship is non linear. Additionally, the correlation is 0 which indicates no linear relationship, meaning no relationship. 
 
-```{r}
-
-```
-
-
-
+Usually this is an indication that a linear regression is not needed. That said, just because the relationship is not perfectly linear does not mean that there is an absence of a relationship. You could still compute one for half of the data. When split down the middle, the line on the left looks like a negative relationship wehreas the one of the right loos positive. 
 
 
 
 
 ```{r}
-Y_dv <- c(10,9,8,7,6,5,4,3,2,1,2,3,4,5,6,7,8,9,10)
-X_iv <- c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19)
+
 
 some_data <- data.frame(Y_dv= c(10,9,8,7,6,5,4,3,2,1,2,3,4,5,6,7,8,9,10),
                         X_iv= c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19))
 
+# compute linear regression,
+lm(Y_dv ~ X_iv, data=some_data)
 
-lm(formula = Y_dv ~ X_iv, data = some_data)
+# saving and output
+save_model <- lm(Y_dv ~ X_iv, data=some_data)
+summary(save_model)
 
 cor.test(some_data$Y_dv,some_data$X_iv)
 
 
 ```
+

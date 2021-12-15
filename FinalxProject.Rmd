@@ -9,28 +9,18 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-1. A brief description of the research question and experiment (with citation to the paper, and link to find the data) 
+  1. A brief description of the research question and experiment (with citation to the paper, and link to find the data) 
+  
 
-     St-Amour, S., Cailhol, L., Ruocco, A. C., & Bernard, P. (2021, April 1). Acute Effect
-       of Physical Exercise on Negative Affect in Borderline Personality Disorder: A Pilot Study.
+      St-Amour, S., Cailhol, L., Ruocco, A. C., & Bernard, P.(2021, April 1). Acute Effect of            Physical Exercise on Negative Affect in Borderline Personality Disorder: A Pilot Study.
 
                           https://doi.org/10.31236/osf.io/mdcuh
                                   https://osf.io/t2egx/
+  
+                                  
+- The aim of this study was to guage how exercise impacts negative affect in individuals with borderline personality disorder. Negative affect was induced in all participants and levels of arousal (FAS) and levels of feeling (FS) were measured before and after the negative induction strategy. 
 
-
-  This study looked at individuals with borderline personality disorder and the impact that exercise could have on reducing negative affect (hostility, sadness, and fear). The participants all had to go through a negative mood induction procedure which consisted of watching a scene from The Silence of the Lambs. After the negative mood induction, participants were randomly assigned into an exercise condition which consisted of 20 minutes of PE, or a  control condition which consisted of watching a 20 minute clip from a "neutral" film. The researchers used a "Feeling Scale" (FS) to measure affective valence with a range from -5(very bad) to 5(very good). They also used an arousal scale (FAS) to measure arousal, which ranged from 1(low arousal) to 6(high arousal).  
-
-
-  The researchers first conducted a repeated measures t-test to assess the negative mood induction strategy on valence. I computed a repeated measures t-test to look at the effect of participants before and after the mood induction. For the most part, I got the same values as they did. The only differences were in my mean values (not entirely sure why/ how that happened).
-
-
-  They reported: 
-"The valence of affects was significantly more negative (FS) after (M = -0.36, SD = 2.59)
-the scene from Silence of the Lambs than before (M = 1.29, SD = 2.49), t(26) = 2.41, p = .023, d = 0.46"
-
-
-  My results:
-The participants valence ratings were more negative (FS) after (M = -0.2592593, SD = 2.58) the scence from Silence of the Lambs than before ( M = 1.33, SD = 2.52678), t(26) = 2.41, df = 26, p-value = 0.023
+  This report reproduces the repeated measures t test used to evaluate the effectiveness of the negative mood induction strategy performed in the experiment by Amour, Cailhol, Ruocco, and Bernard (2021).
 
 
 ```{r}
@@ -40,41 +30,87 @@ library(dplyr)
 library(ggplot2)
 
 library(readr)
-fas_fs_scores <- read_csv("finalxproject/fas_fs_scores.csv")
-# View(fas_fs_scores)
+arousal_feeling_scores <- read_csv("finalxproject/arousal_feeling_scores.csv")
+# View(arousal_feeling_scores)
 
-# fs valence scores
+# feeling valence scores
 
-FS_BEFORE <- fas_fs_scores$fs_before
-FS_AFTER <- fas_fs_scores$fs_after
+feeling_before <- arousal_feeling_scores$feeling_before
+feeling_after <- arousal_feeling_scores$feeling_after
 
-mean(FS_BEFORE)
-mean(FS_AFTER)
+feeling_mean_before <- 1.3
+feeling_mean_after <- -.259
 
-sd(FS_AFTER)
-sd(FS_BEFORE)
+sd(feeling_before)
+sd(feeling_after)
 
-(FS_before_after <- t.test(fas_fs_scores$fs_before,
-                        fas_fs_scores$fs_after,
+(feeling_before_after <- t.test(arousal_feeling_scores$feeling_before,
+                        arousal_feeling_scores$feeling_after,
                         paired = TRUE))
 
 
+# arousal scores
 
-# fas arousal scores
+arousal_before <- arousal_feeling_scores$arousal_before
+arousal_after <- arousal_feeling_scores$arousal_after
 
-FAS_BEFORE <- fas_fs_scores$fas_before
-FAS_AFTER <- fas_fs_scores$fas_after
+arousal_mean_before <- 5.074
+arousal_mean_after <- 6.81
 
-mean(FAS_BEFORE)
-mean(FAS_AFTER)
+sd(arousal_before)
+sd(arousal_after)
 
-sd(FAS_BEFORE)
-sd(FAS_AFTER)
-
-(FAS_before_after <- t.test(fas_fs_scores$fas_before,
-                        fas_fs_scores$fas_after,
+(arousal_before_after <- t.test(arousal_feeling_scores$arousal_before,
+                        arousal_feeling_scores$arousal_after,
                         paired = TRUE))
 
+
+```
+
+2. Table of means 
+
+```{r}
+
+# print table of means 
+
+knitr::kable(colMeans(arousal_feeling_scores))
+
+
+```
+
+3. Graph of means
+
+```{r}
+
+# feeling means
+
+library(dplyr)
+
+feeling_mean_scores <- c("1.29", "-0.36")
+
+sections <- c("before", "after")
+feeling_mean_scores <- c("1.29", "-0.36")
+
+my_data <- data.frame(sections,feeling_mean_scores)
+
+library(ggplot2)
+
+ggplot(my_data, aes(x = sections, y = feeling_mean_scores))+
+  geom_bar(stat="identity")
+
+
+
+# arousal means
+
+sections <- c("before", "after")
+arousal_mean_scores <- c("5.07", "6.81")
+
+my_data <- data.frame(sections,arousal_mean_scores)
+
+library(ggplot2)
+
+ggplot(my_data, aes(x = sections, y = arousal_mean_scores))+
+  geom_bar(stat="identity")
 
 
 

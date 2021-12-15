@@ -1,0 +1,114 @@
+---
+title             : "Reproducing the analysis in Acute Effect of Physical Exercise on Negative Affect in Borderline Personality Disorder by Amour, Cailhol, and Ruocco"
+shorttitle        : "Exercise on Negative Affect in BPD"
+
+author:   
+  - name          : "Natalie Palmer"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    email         : "p.natalierussell@gmail.com"
+      
+affiliation:
+  - id            : "1"
+    institution   : "Brooklyn College of the City University of New York"
+
+authornote: |
+  Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
+
+  Enter author note here.
+  
+  
+abstract: |
+  This study looks at exercise as a potential strategy to reduce negative affect in individuals with borderline personality disorder. Negative affect was induced in all participants and they were randomly assigned to either an experimental or control condition. Affect was measured using a feeling scale and arousal scale before and after mood induction. 
+  This is a reproduction of the repeated measures t-test performed to assess the negative mood induction strategy used by the researchers. 
+  The induction strategy has a significant effect on inducing negative feeling/affect in participants, but there was not a significant difference in arousal ratings before and after. 
+
+  
+
+  <!-- https://tinyurl.com/ybremelq -->
+  
+keywords          : "borderline personlaity, exercise"
+wordcount         : "X"
+
+bibliography      : ["r-references.bib"]
+
+floatsintext      : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+linenumbers       : yes
+mask              : no
+draft             : no
+
+documentclass     : "apa6"
+classoption       : "man"
+output            : papaja::apa6_pdf
+---
+
+```{r setup, include = FALSE}
+library("papaja")
+r_refs("r-references.bib")
+```
+
+```{r analysis-preferences}
+# Seed for random number generation
+set.seed(42)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
+```
+# Introduction
+
+  This report reproduces the repeated measures t-test used to evaluate the effectiveness of the negative mood induction strategy performed in the experiment by Amour et al. (2021). Open data can be downloaded from https://osf.io/t2egx/.
+  
+  This study looked at individuals with borderline personality disorder (BPD) and whether or not exercise could be a beneficial emotion regulation strategy. All participant had to go through a negative mood induction procedure which consisted of watching a five-minute scene from The Silence of the Lambs which has been shown to induce negative feelings. After the negative mood induction, participants were randomly assigned into an exercise condition which consisted of 20 minutes of PE, or a  control condition which consisted of watching a 20 minute clip from a "neutral" film. The researchers used "Feeling Scale" (FS) to measure affective valence with a range from -5(very bad) to 5(very good). They also used an arousal scale (FAS) to measure arousal, which ranged from 1(low arousal) to 6(high arousal).  
+
+# Methods
+## Participants
+  The study consisted of 27 participants who had all been diagnosed with borderline personality disorder. 
+
+## Material
+
+
+## Procedure
+
+  Participants all had to go through a negative mood induction strategy which was watching a scene from Silence of the Lambs. Researchers measured negative and positive valence as well as arousal in all participants seven times throughout the experiment. Before the negative mood induction strategy, right before the induction strategy, immediately following the negative mood induction, 5 minutes into the experimental condition, 10 minutes into the experimental condition, 15 minutes into the experimental condition, and at the end of he experiment. 
+  
+
+  
+## Data analysis
+
+
+# Results
+
+  The reanalysis of the repeated measures t-test used to look at effectiveness of the negative mood induction strategy looked at feeling and arousal scores directly before and immediately after the mood induction strategy. 
+    
+# Repeated Measures T-Test for Feeling Scores before and after
+
+  The participants feeling scores (FS) were significantly more negative after (M = -0.2592593, SD = 2.58) the scence from Silence of the Lambs than before ( M = 5.074, SD = 2.52678), t(26) = 2.41, df = 26, p-value = 0.023. The mean difference was ( M = 1.59)
+  
+# Repeated Measures T-Test for Arousal Scores before and after
+  However, the participants arousal scores were not significantly more negative (FAS) after (M = 6.81, SD = 2.527) the scence from Silence of the Lambs than before ( M = 5.074, SD = 2.525), t(26) = -3.2845, df = 26, p-value = 0.00292. The mean difference was ( M =  -1.740741 )
+
+# Discussion
+
+The re-analysis somewhat successfully reproduced the analysis reported by @st-amour_cailhol_ruocco_bernard_2021. My results for the repeated measures t-test looking at feeling scores were the same (however, my means for before and after slightly varied).
+
+My results for the second repeated measures t-test which looked at arousal scores before and after were not the same as the results reported in the study. 
+
+
+
+\newpage
+
+# References
+Please cite as: St-Amour, S., Cailhol, L., Ruocco, A. C., & Bernard, P. (2021, April 1). Acute Effect
+of Physical Exercise on Negative Affect in Borderline Personality Disorder: A Pilot Study.
+https://doi.org/10.31236/osf.io/mdcuh
+
+
+
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+<div id="refs" custom-style="Bibliography"></div>
+\endgroup
