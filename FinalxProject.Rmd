@@ -23,6 +23,9 @@ knitr::opts_chunk$set(echo = TRUE)
   This report reproduces the repeated measures t test used to evaluate the effectiveness of the negative mood induction strategy performed in the experiment by Amour, Cailhol, Ruocco, and Bernard (2021).
 
 
+library(papaja)
+apa_print(feeling_before_after)
+
 ```{r}
 library(data.table)
 library(papaja)
@@ -31,18 +34,18 @@ library(ggplot2)
 
 library(readr)
 arousal_feeling_scores <- read_csv("finalxproject/arousal_feeling_scores.csv")
-# View(arousal_feeling_scores)
+
 
 # feeling valence scores
-
 feeling_before <- arousal_feeling_scores$feeling_before
 feeling_after <- arousal_feeling_scores$feeling_after
 
-feeling_mean_before <- 1.3
-feeling_mean_after <- -.259
-
 sd(feeling_before)
 sd(feeling_after)
+
+mean(feeling_before)
+mean(feeling_after)
+
 
 (feeling_before_after <- t.test(arousal_feeling_scores$feeling_before,
                         arousal_feeling_scores$feeling_after,
@@ -54,11 +57,13 @@ sd(feeling_after)
 arousal_before <- arousal_feeling_scores$arousal_before
 arousal_after <- arousal_feeling_scores$arousal_after
 
-arousal_mean_before <- 5.074
-arousal_mean_after <- 6.81
-
 sd(arousal_before)
 sd(arousal_after)
+
+mean(arousal_before)
+mean(arousal_after)
+
+#apa_print(arousal_before_after)$full_result
 
 (arousal_before_after <- t.test(arousal_feeling_scores$arousal_before,
                         arousal_feeling_scores$arousal_after,
@@ -67,14 +72,19 @@ sd(arousal_after)
 
 ```
 
-2. Table of means 
+The re-analysis for the feeling scores showed, `r apa_print(feeling_before_after)$full_result`.
+
+The re-analysis for the feeling scores showed, `r apa_print(arousal_before_after)$full_result`.
+
+
 
 ```{r}
-
-# print table of means 
+library(dplyr)
+library(ggplot2)
 
 knitr::kable(colMeans(arousal_feeling_scores))
 
+table_means <- knitr::kable(colMeans(arousal_feeling_scores))
 
 ```
 
@@ -99,7 +109,6 @@ ggplot(my_data, aes(x = sections, y = feeling_mean_scores))+
   geom_bar(stat="identity")
 
 
-
 # arousal means
 
 sections <- c("before", "after")
@@ -115,3 +124,29 @@ ggplot(my_data, aes(x = sections, y = arousal_mean_scores))+
 
 
 ```
+
+4. Power Analysis 
+the following reports a power curve analysis for one of the t tests in the design. 
+```{r, fig.cap= "A Power curve for a paired samples t-test with 27 participants"}
+
+library(pwr)
+effect_sizes <- seq(.1,2,.1)
+prop_significant <- c()
+
+power <- sapply(effect_sizes,
+                FUN = function(x) {
+                  pwr.t.test(n=27,
+                             d=x,
+                             sig.level = .05,
+                             type = "paired",
+                             alternative = "two.sided")$power})
+plot_df <- data.frame(effect_sizes,power)
+ggplot(plot_df, aes(x=effect_sizes,
+                    y=power))+
+  
+  geom_point()+
+  geom_line()
+
+```
+
+

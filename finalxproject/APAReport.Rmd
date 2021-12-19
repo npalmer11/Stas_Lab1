@@ -7,23 +7,29 @@ author:
     affiliation   : "1"
     corresponding : yes    # Define only one corresponding author
     email         : "p.natalierussell@gmail.com"
-      
+    role:         # Contributorship roles (e.g., CRediT, https://casrai.org/credit/)
+      - Conceptualization
+      - Writing - Original Draft Preparation
+      - Writing - Review & Editing
+  - name          : "Samuel St-Amour"
+    affiliation   : "2"
+    role:
+      - Writing - Review & Editing
 affiliation:
   - id            : "1"
     institution   : "Brooklyn College of the City University of New York"
+  - id            : "2"
+    institution   : "Department of Psychology (Scarborough), University of Toronto"
 
-authornote: |
-  Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
-
-  Enter author note here.
-  
   
 abstract: |
-  This study looks at exercise as a potential strategy to reduce negative affect in individuals with borderline personality disorder. Negative affect was induced in all participants and they were randomly assigned to either an experimental or control condition. Affect was measured using a feeling scale and arousal scale before and after mood induction. 
-  This is a reproduction of the repeated measures t-test performed to assess the negative mood induction strategy used by the researchers. 
-  The induction strategy has a significant effect on inducing negative feeling/affect in participants, but there was not a significant difference in arousal ratings before and after. 
+  The study was conducted by St-Amour, S., Cailhol, L., Ruocco, A. C., & Bernard, P.(2021, April 1). The origional paper can be found at https://osf.io/preprints/sportrxiv/mdcuh/
 
+  This study looks at exercise as a potential strategy to reduce negative affect in individuals with borderline personality disorder. Negative affect was induced in all participants and they were randomly assigned to either an experimental or control condition. Affect was measured using a feeling scale and arousal scale before and after mood induction. 
   
+  This is a reproduction of the repeated measures t-test performed to assess the negative mood induction strategy used by the researchers. 
+  The induction strategy had a significant effect on inducing negative feeling in participants. However, there was not a significant difference in arousal ratings before and after the induction strategy. 
+
 
   <!-- https://tinyurl.com/ybremelq -->
   
@@ -48,6 +54,7 @@ output            : papaja::apa6_pdf
 ```{r setup, include = FALSE}
 library("papaja")
 r_refs("r-references.bib")
+r_refs("myreferences.bib")
 ```
 
 ```{r analysis-preferences}
@@ -59,13 +66,16 @@ knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 
   This report reproduces the repeated measures t-test used to evaluate the effectiveness of the negative mood induction strategy performed in the experiment by Amour et al. (2021). Open data can be downloaded from https://osf.io/t2egx/.
   
-  This study looked at individuals with borderline personality disorder (BPD) and whether or not exercise could be a beneficial emotion regulation strategy. All participant had to go through a negative mood induction procedure which consisted of watching a five-minute scene from The Silence of the Lambs which has been shown to induce negative feelings. After the negative mood induction, participants were randomly assigned into an exercise condition which consisted of 20 minutes of PE, or a  control condition which consisted of watching a 20 minute clip from a "neutral" film. The researchers used "Feeling Scale" (FS) to measure affective valence with a range from -5(very bad) to 5(very good). They also used an arousal scale (FAS) to measure arousal, which ranged from 1(low arousal) to 6(high arousal).  
+  This goal of this study was to see whether or not exercise could be a beneficial emotion regulation strategy for individuals with borderline personality disorder (BPD). All participant had to go through a negative mood induction procedure which consisted of watching a short scene from The Silence of the Lambs which has been shown to induce negative feelings in individuals with borderline personality. After the negative mood induction, participants were randomly assigned into an exercise condition which consisted of 20 minutes of physical exercise on a stationary bike, or a  control condition which consisted of watching a 20 minute clip from a "neutral" film. The researchers used "The Feeling Scale" (FS) to measure affective valence with a range from -5(very bad) to 5(very good). They also used "The Felt Arousal Scale"  (FAS) to measure arousal, which ranged from 1 (low arousal) to 6 (high arousal).  
 
 # Methods
-## Participants
-  The study consisted of 27 participants who had all been diagnosed with borderline personality disorder. 
 
-## Material
+Researchers used "The Felt Arousal Scale"  (FAS; Svebak and Murgatroyd, 1985) and "The Feeling Scale" (FS; Hardy and Rejeski, 1989) to measure participants general feeling before and after the negative induction strategy. 
+
+
+## Participants
+
+  Participants in the study were recruited from the Personality and Relational Disorders Services from the Mental Health University Institute of Montreal. The study consisted of 27 participants, all of whom were diagnosed with borderline personality disorder. 
 
 
 ## Procedure
@@ -73,13 +83,13 @@ knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
   Participants all had to go through a negative mood induction strategy which was watching a scene from Silence of the Lambs. Researchers measured negative and positive valence as well as arousal in all participants seven times throughout the experiment. Before the negative mood induction strategy, right before the induction strategy, immediately following the negative mood induction, 5 minutes into the experimental condition, 10 minutes into the experimental condition, 15 minutes into the experimental condition, and at the end of he experiment. 
   
 
-  
 ## Data analysis
 
 
 # Results
 
-  The reanalysis of the repeated measures t-test used to look at effectiveness of the negative mood induction strategy looked at feeling and arousal scores directly before and immediately after the mood induction strategy. 
+  Feeling and arousal scores were collected directly before and immediately after the negative mood induction strategy. A repeated measures t-test was used to look at effectiveness of the strategy in both. 
+
     
 # Repeated Measures T-Test for Feeling Scores before and after
 
@@ -88,21 +98,114 @@ knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 # Repeated Measures T-Test for Arousal Scores before and after
   However, the participants arousal scores were not significantly more negative (FAS) after (M = 6.81, SD = 2.527) the scence from Silence of the Lambs than before ( M = 5.074, SD = 2.525), t(26) = -3.2845, df = 26, p-value = 0.00292. The mean difference was ( M =  -1.740741 )
 
+apa_print(means_df)
+
+```{r}
+library(data.table)
+library(papaja)
+library(dplyr)
+library(ggplot2)
+
+library(readr)
+arousal_feeling_scores <- read_csv("arousal_feeling_scores.csv")
+
+
+# feeling valence scores paired t test
+feeling_before <- arousal_feeling_scores$feeling_before
+feeling_after <- arousal_feeling_scores$feeling_after
+
+
+
+(feeling_before_after <- t.test(arousal_feeling_scores$feeling_before,
+                        arousal_feeling_scores$feeling_after,
+                        paired = TRUE))
+
+
+# arousal scores paired t test
+
+arousal_before <- arousal_feeling_scores$arousal_before
+arousal_after <- arousal_feeling_scores$arousal_after
+
+
+(arousal_before_after <- t.test(arousal_feeling_scores$arousal_before,
+                        arousal_feeling_scores$arousal_after,
+                        paired = TRUE))
+
+
+# feeling means
+
+library(dplyr)
+
+feeling_mean_scores <- c("1.29", "-0.36")
+
+sections <- c("before", "after")
+feeling_mean_scores <- c("1.29", "-0.36")
+
+my_data <- data.frame(sections,feeling_mean_scores)
+
+library(ggplot2)
+
+ggplot(my_data, aes(x = sections, y = feeling_mean_scores))+
+  geom_bar(stat="identity")
+
+```
+
+
 # Discussion
 
-The re-analysis somewhat successfully reproduced the analysis reported by @st-amour_cailhol_ruocco_bernard_2021. My results for the repeated measures t-test looking at feeling scores were the same (however, my means for before and after slightly varied).
+The re-analysis somewhat successfully reproduced the analysis reported by [@st-amour_cailhol_ruocco_bernard_2021]. My results for the repeated measures t-test looking at feeling scores were the same (my means for before and after scores slightly varied). However, my results for the t test that looked at arousal before and after were not the same. 
 
-My results for the second repeated measures t-test which looked at arousal scores before and after were not the same as the results reported in the study. 
+The researchers reported:
 
+  The valence of feeling scores were significantly more negative (FS) after (M = -0.36, SD = 2.59)
+the scene from Silence of the Lambs than before (M = 1.29, SD = 2.49), t(26) = 2.41, p = .023, d =
+0.46, but the clip did not impact the arousal (FAS), t(26) = -1.79, p = .086
+
+
+
+# Power Analysis 
+
+The following reports a power curve analysis for the t-test with 27 participants. This shows the power of the design to detect effects of different sizes.
+
+  This experiment had 27 subjects. The results of the power curve are shown below. When the effect size is around 1.0 a design of this nature will detect that effect at the .05 level nearly 100 percent of the time. I do believe that this study could have benefited from a slightly larger sample size. 
+  
+
+
+apa_print(plot_df)
+
+
+
+```{r, fig.cap= "A Power curve for a t-test with 27 participants"}
+library(pwr)
+effect_sizes <- seq(.1,2,.1)
+prop_significant <- c()
+
+power <- sapply(effect_sizes,
+                FUN = function(x) {
+                  pwr.t.test(n=27,
+                             d=x,
+                             sig.level = .05,
+                             type = "paired",
+                             alternative = "two.sided")$power})
+plot_df <- data.frame(effect_sizes,power)
+ggplot(plot_df, aes(x=effect_sizes,
+                    y=power))+
+  
+  geom_point()+
+  geom_line()
+```
 
 
 \newpage
 
 # References
-Please cite as: St-Amour, S., Cailhol, L., Ruocco, A. C., & Bernard, P. (2021, April 1). Acute Effect
+St-Amour, S., Cailhol, L., Ruocco, A. C., & Bernard, P. (2021, April 1). Acute Effect
 of Physical Exercise on Negative Affect in Borderline Personality Disorder: A Pilot Study.
-https://doi.org/10.31236/osf.io/mdcuh
+https://doi.org/10.31236/osf.io/mdcuh    
 
+
+{r create_r-references}
+r_refs(file = "r-references.bib")
 
 
 
