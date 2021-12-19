@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-  1. A brief description of the research question and experiment (with citation to the paper, and link to find the data) 
+1. A brief description of the research question and experiment (with citation to the paper, and link to find the data) 
   
 
       St-Amour, S., Cailhol, L., Ruocco, A. C., & Bernard, P.(2021, April 1). Acute Effect of            Physical Exercise on Negative Affect in Borderline Personality Disorder: A Pilot Study.
